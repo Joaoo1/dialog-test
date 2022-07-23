@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import { app } from './app';
 
-// eslint-disable-next-line no-console
-app.listen(4001, () => console.log('Listen on port 4000'));
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => console.log(`Listen on port ${port}`));
