@@ -1,12 +1,16 @@
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 import helmet from 'helmet';
 
 import { initApolloServer } from './graphql';
-import { corsOptions } from './config/cors';
 import { helmetOptions } from './config/helmet';
+import { morganOptions } from './config/morgan';
+import { corsOptions } from './config/cors';
 
 const app = express();
+
+app.use(morgan('combined', morganOptions));
 
 app.use(helmet(helmetOptions));
 
