@@ -29,5 +29,6 @@ export const typeDefs = gql`
 
   type Query {
     list(name: String): [User]
+    find(id: String): User
   }
 `;

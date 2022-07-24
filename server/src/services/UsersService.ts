@@ -11,4 +11,8 @@ export class UsersService {
     const regex = createSearchNameRegex(name);
     return users.filter(user => regex.test(user.name));
   }
+
+  findById(id: string): User | undefined {
+    return users.find(({ _id }) => _id === id);
+  }
 }
