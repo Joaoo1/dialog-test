@@ -1,3 +1,3 @@
-export const App = () => {
-  return <div>Dialog test</div>;
-};
+import { Router } from './routes';
+
+export const App = () => <Router />;
