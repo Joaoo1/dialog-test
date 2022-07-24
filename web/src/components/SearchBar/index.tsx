@@ -29,7 +29,7 @@ export const SearchBar: React.FC = () => {
           <Title>MySocial</Title>
         </Link>
         <SearchInput
-          placeholder="Pesquisar"
+          placeholder="Search"
           onKeyUp={handleKeyDown}
           onChange={handleChange}
           value={query}

@@ -36,16 +36,8 @@ export const Home: React.FC = () => {
     return <LoadingIndicator />;
   }
 
-  if (!data) {
-    return (
-      <UserNotFound title="Nenhum resultado encontrado para sua pesquisa" />
-    );
-  }
-
-  if (data.list.length === 0) {
-    return (
-      <UserNotFound title="Nenhum resultado encontrado para sua pesquisa1" />
-    );
+  if (!data || data.list.length === 0) {
+    return <UserNotFound title="No results found" />;
   }
 
   return <UsersList users={data.list} />;
