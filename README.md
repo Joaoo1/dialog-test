@@ -93,4 +93,20 @@ Deverá executar com `yarn start` na porta 3000
 
 
 ### Anotações que valem menção colocar aqui:
-...
+
+Curl para listagem de todos os usuários:
+```
+curl --request POST \
+    --header 'content-type: application/json' \
+    --url http://localhost:4000/graphql \
+    --data '{"query":"query {\n  list {\n    _id\n    index\n    picture\n    age\n    eyeColor\n    name\n    company\n    email\n    phone\n    friends {\n      _id\n      index\n      picture\n      age\n      eyeColor\n      name\n      company\n      email\n      phone\n    }\n    greeting\n  }\n}"}'
+```
+
+Curl para listar usuário pelo nome: 
+```
+curl --request POST \
+    --header 'content-type: application/json' \
+    --url http://localhost:4000/graphql \
+    --data '{"query":"query {\n  list(name: \"ce an\") {\n    _id\n    index\n    picture\n    age\n    eyeColor\n    name\n    company\n    email\n    phone\n    friends {\n      _id\n      index\n      picture\n      age\n      eyeColor\n      name\n      company\n      email\n      phone\n    }\n    greeting\n  }\n}"}'
+```
+
