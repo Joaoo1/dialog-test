@@ -4,29 +4,29 @@ import { Field, ObjectType, ID } from 'type-graphql';
 @ObjectType()
 export class Friend {
   @Field(_type => ID, { name: 'id' })
-  _id!: string;
+  _id: string;
 
   @Field()
-  index!: number;
+  index: number;
 
   @Field()
-  picture!: string;
+  picture: string;
 
   @Field()
-  age!: number;
+  age: number;
 
   @Field()
-  eyeColor!: string;
+  eyeColor: string;
 
   @Field()
-  name!: string;
+  name: string;
 
   @Field()
-  company!: string;
+  company: string;
 
   @Field()
-  email!: string;
+  email: string;
 
   @Field()
-  phone!: string;
+  phone: string;
 }

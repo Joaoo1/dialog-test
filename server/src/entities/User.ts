@@ -5,35 +5,35 @@ import { Friend } from './Friend';
 @ObjectType()
 export class User {
   @Field(_type => ID, { name: 'id' })
-  _id!: string;
+  _id: string;
 
   @Field()
-  index!: number;
+  index: number;
 
   @Field()
-  picture!: string;
+  picture: string;
 
   @Field()
-  age!: number;
+  age: number;
 
   @Field()
-  eyeColor!: string;
+  eyeColor: string;
 
   @Field()
-  name!: string;
+  name: string;
 
   @Field()
-  company!: string;
+  company: string;
 
   @Field()
-  email!: string;
+  email: string;
 
   @Field()
-  phone!: string;
+  phone: string;
 
   @Field(type => [Friend])
-  friends!: [Friend];
+  friends: [Friend];
 
   @Field()
-  greeting!: string;
+  greeting: string;
 }
