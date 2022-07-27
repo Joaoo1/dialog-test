@@ -11,7 +11,7 @@ type Props = {
 export const UsersList: React.FC<Props> = ({ users }) => (
   <Container>
     {users.map(user => (
-      <UserCard user={user} key={user._id} navigateToProfileOnClick />
+      <UserCard user={user} key={user.id} navigateToProfileOnClick />
     ))}
   </Container>
 );

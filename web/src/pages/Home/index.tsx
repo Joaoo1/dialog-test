@@ -9,7 +9,7 @@ import { User } from '../../types/User';
 const GET_USERS = gql`
   query GetUsers($name: String) {
     list(name: $name) {
-      _id
+      id
       picture
       age
       eyeColor

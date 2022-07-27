@@ -1,7 +1,7 @@
 import { Container } from './styles';
 
 type User = {
-  _id: string;
+  id: string;
   name: string;
   age: number;
   eyeColor: string;
@@ -21,7 +21,7 @@ export const UserCard: React.FC<Props> = ({
 }) => (
   <Container
     isClickable={!!navigateToProfileOnClick}
-    to={navigateToProfileOnClick ? `/${user._id}` : '#'}
+    to={navigateToProfileOnClick ? `/${user.id}` : '#'}
   >
     <img src={user.picture} alt={`Imagem de perfil do usuário ${user.name}`} />
     <p>Name: {user.name}</p>

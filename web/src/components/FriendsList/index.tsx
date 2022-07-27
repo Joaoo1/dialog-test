@@ -14,7 +14,7 @@ export const FriendsList: React.FC<Props> = ({ title, friends }) => (
 
     <Container>
       {friends.map(friend => (
-        <UserCard user={friend} key={friend._id} />
+        <UserCard user={friend} key={friend.id} />
       ))}
     </Container>
   </>
