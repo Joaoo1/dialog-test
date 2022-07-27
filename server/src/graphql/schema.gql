@@ -17,7 +17,7 @@ type Friend {
 
 type Query {
   find(id: String!): User!
-  list(name: String!): [User!]!
+  list(name: String = ""): [User!]!
 }
 
 type User {

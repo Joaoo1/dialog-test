@@ -5,7 +5,7 @@ import { UsersService } from '../services/UsersService';
 @Resolver()
 export class UserResolver {
   @Query(() => [User])
-  async list(@Arg('name') name?: string) {
+  async list(@Arg('name', { defaultValue: '' }) name?: string) {
     const { findAllByName, findAll } = new UsersService();
     return name ? findAllByName(name) : findAll();
   }
