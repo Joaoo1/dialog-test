@@ -8,9 +8,9 @@ import { UserNotFound } from '../../components/UserNotFound';
 import { User } from '../../types/User';
 
 const GET_USER_BY_ID = gql`
-  query GetUserById($id: String) {
+  query GetUserById($id: String!) {
     find(id: $id) {
-      _id
+      id
       index
       picture
       age
@@ -19,7 +19,7 @@ const GET_USER_BY_ID = gql`
       company
       email
       friends {
-        _id
+        id
         index
         picture
         age
