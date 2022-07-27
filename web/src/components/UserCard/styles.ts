@@ -5,7 +5,15 @@ type ContainerProps = {
   isClickable?: boolean;
 };
 
-export const Container = styled(Link)<ContainerProps>`
+export const Container = styled(Link).withConfig({
+  /**
+   * shouldForwardProp is used here to avoid a custom Prop
+   * to be passed to DOM and throws an error on console
+   *
+   * See more: https://styled-components.com/docs/api#shouldforwardprop
+   */
+  shouldForwardProp: prop => prop.toString() !== 'isClickable',
+})<ContainerProps>`
   text-decoration: none;
   width: 100%;
   min-height: 20rem;
