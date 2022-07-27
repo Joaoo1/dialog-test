@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Field, ID, ObjectType } from 'type-graphql';
-import { Friend } from './Friend';
+import { Field, ObjectType, ID } from 'type-graphql';
 
 @ObjectType()
-export class User {
+export class Friend {
   @Field(_type => ID, { name: 'id' })
   _id!: string;
 
@@ -30,10 +29,4 @@ export class User {
 
   @Field()
   phone!: string;
-
-  @Field(type => [Friend])
-  friends!: [Friend];
-
-  @Field()
-  greeting!: string;
 }

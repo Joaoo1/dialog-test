@@ -1,14 +1,20 @@
+import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
+import { buildSchema } from 'type-graphql';
 
-import { typeDefs } from './typeDefs';
 import { apolloConfig } from '../config/apollo';
-import { resolvers } from '../resolvers';
+import { UserResolver } from '../resolvers/user';
 
-const getApolloServer = () =>
-  new ApolloServer({
-    typeDefs,
-    resolvers,
+const getApolloServer = async () => {
+  const schema = await buildSchema({
+    resolvers: [UserResolver],
+    emitSchemaFile: path.resolve(__dirname, 'schema.gql'),
+  });
+
+  return new ApolloServer({
+    schema,
     ...apolloConfig,
   });
+};
 
 export { getApolloServer };
