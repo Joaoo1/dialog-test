@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 512mb
+    env_file:
+      - ./server/.env
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  db_test:
+    image: postgres
+    restart: always
+    shm_size: 512mb
+    env_file:
+      - ./server/.env.test
+    ports:
+      - 5433:5432
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        - PORT
+    env_file:
+      - ./server/.env
+    container_name: server_api
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    volumes:
+      - ./server:/app
+      - /app/node_modules 
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client_app
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    env_file:
+      - ./client/.env
+    depends_on:
+      - server
+
+volumes:
+  db_data:
