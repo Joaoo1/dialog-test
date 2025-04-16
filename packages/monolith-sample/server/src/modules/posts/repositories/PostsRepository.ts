@@ -1,10 +1,41 @@
-import type { Insertable } from "kysely";
+import { type Insertable, sql } from "kysely";
 import { db } from "../../../database";
 import type { PostsTable } from "../../../database/types";
 import type { Post } from "../entities/Post";
-import type { IPostsRepository } from "./IPostsRepository";
+import type { IPostsRepository, ListPost } from "./IPostsRepository";
 
 export class PostsRepository implements IPostsRepository {
+	async list(currentUserId: string): Promise<ListPost[]> {
+		const posts = await db
+			.selectFrom("posts")
+			.innerJoin("users", "users.id", "posts.createdBy")
+			.leftJoin("posts_likes", "posts_likes.postId", "posts.id")
+			.select([
+				"posts.id",
+				"posts.text",
+				"posts.createdAt",
+				"users.name as authorName",
+				db.fn.count("posts_likes.id").as("likesCount"),
+				sql<boolean>`
+				CASE 
+				  WHEN EXISTS (
+					SELECT 1 FROM posts_likes 
+					WHERE "postId" = posts.id AND "userId" = ${currentUserId}
+				  ) THEN TRUE
+				  ELSE FALSE
+				END
+			  `.as("likedByUser"),
+			])
+			.groupBy(["posts.id", "users.name"])
+			.orderBy("posts.createdAt", "desc")
+			.execute();
+
+		return posts.map((post) => ({
+			...post,
+			likesCount: Number(post.likesCount),
+		}));
+	}
+
 	async create(postData: Insertable<PostsTable>): Promise<Post> {
 		const [createdPost] = await db
 			.insertInto("posts")
