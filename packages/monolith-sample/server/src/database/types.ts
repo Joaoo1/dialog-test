@@ -3,6 +3,7 @@ import type { ColumnType } from "kysely";
 export interface Database {
 	users: UsersTable;
 	posts: PostsTable;
+	posts_likes: PostsLikesTable;
 }
 
 interface BaseTable {
@@ -19,4 +20,9 @@ export interface UsersTable extends BaseTable {
 export interface PostsTable extends BaseTable {
 	text: string;
 	createdBy: string;
+}
+
+export interface PostsLikesTable extends BaseTable {
+	postId: string;
+	userId: string;
 }
