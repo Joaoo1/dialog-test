@@ -1,3 +1,5 @@
+import { wsEventEmitter } from "../../../../server/websocket";
+import { WebSocketEvents } from "../../../../server/websocket/events";
 import type { CreatePostDTO } from "../../dtos/CreatePostDTO";
 import type { IPostsRepository } from "../../repositories/IPostsRepository";
 
@@ -9,6 +11,8 @@ export class CreatePostUseCase {
 			text,
 			createdBy,
 		});
+
+		wsEventEmitter.emit(WebSocketEvents.NEW_POST);
 
 		return post;
 	}

@@ -1,5 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { generateFakeUser } from "../../../../common/factories/generateFakeUser";
+import { wsEventEmitter } from "../../../../server/websocket";
+import { WebSocketEvents } from "../../../../server/websocket/events";
 import { PostsRepository } from "../../repositories/PostsRepository";
 import { CreatePostUseCase } from "./CreatePostUseCase";
 
@@ -25,5 +27,22 @@ describe("Create Post", () => {
 
 		const createdPost = await postsRepository.findById(post.id);
 		expect(createdPost).toBeDefined();
+	});
+
+	it("should emit NEW_POST event after creating a post", async () => {
+		const { sut } = makeSut();
+		const user = await generateFakeUser();
+
+		const emitSpy = jest
+			.spyOn(wsEventEmitter, "emit")
+			.mockImplementation(() => true);
+
+		await sut.execute({
+			text: faker.lorem.sentence(),
+			createdBy: user.id,
+		});
+
+		expect(emitSpy).toHaveBeenCalledWith(WebSocketEvents.NEW_POST);
+		emitSpy.mockRestore();
 	});
 });
