@@ -256,6 +256,29 @@
 					}
 				}
 			}
+		},
+		"/api/auth/delete": {
+			"delete": {
+				"summary": "Delete the authenticated user",
+				"description": "Deletes the currently authenticated user.",
+				"tags": ["Authentication"],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "User successfully deleted."
+					},
+					"401": {
+						"description": "Unauthorized (e.g., invalid or missing token)."
+					},
+					"429": {
+						"description": "Too many requests (rate limit exceeded)."
+					}
+				}
+			}
 		}
 	}
 }

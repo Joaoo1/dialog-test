@@ -7,4 +7,5 @@ export interface IUsersRepository {
 	findByEmail(email: string): Promise<User | null>;
 	create(userData: Insertable<UsersTable>): Promise<User>;
 	update(id: string, userData: Partial<Updateable<UsersTable>>): Promise<User>;
+	delete(id: string): Promise<void>;
 }

@@ -54,4 +54,8 @@ export class UsersRepository implements IUsersRepository {
 
 		return updatedUser;
 	}
+
+	async delete(id: string): Promise<void> {
+		await db.deleteFrom("users").where("id", "=", id).execute();
+	}
 }
