@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from 'express';
-
 import { db } from '../../database';
 import { env } from '../../env';
 import { AppError } from '../AppError';

@@ -1,4 +1,4 @@
 export interface CreatePostDTO {
-	text: string;
-	createdBy: string;
+  text: string;
+  createdBy: string;
 }

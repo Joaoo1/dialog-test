@@ -1,7 +1,7 @@
-import { AppError } from "../../../common/AppError";
+import { AppError } from '../../../common/AppError';
 
 export class UserNotFoundError extends AppError {
-	constructor() {
-		super("Usuário não encontrado", 404);
-	}
+  constructor() {
+    super('Usuário não encontrado', 404);
+  }
 }

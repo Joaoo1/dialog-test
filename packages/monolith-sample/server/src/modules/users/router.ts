@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import { EnsureAuthenticated } from "../../common/middlewares/EnsureAuthenticated";
-import { DeleteUserController } from "./useCases/DeleteUser/DeleteUserController";
-import { UpdateUserController } from "./useCases/UpdateUser/UpdateUserController";
-import { UpdateUserValidator } from "./useCases/UpdateUser/UpdateUserValidator";
+import { EnsureAuthenticated } from '../../common/middlewares/EnsureAuthenticated';
+import { DeleteUserController } from './useCases/DeleteUser/DeleteUserController';
+import { UpdateUserController } from './useCases/UpdateUser/UpdateUserController';
+import { UpdateUserValidator } from './useCases/UpdateUser/UpdateUserValidator';
 
 const usersRouter = Router();
 
@@ -12,7 +12,7 @@ const deleteUserController = new DeleteUserController();
 
 usersRouter.use(EnsureAuthenticated);
 
-usersRouter.put("/", UpdateUserValidator, updateUserController.handle);
-usersRouter.delete("/", deleteUserController.handle);
+usersRouter.put('/', UpdateUserValidator, updateUserController.handle);
+usersRouter.delete('/', deleteUserController.handle);
 
 export { usersRouter };

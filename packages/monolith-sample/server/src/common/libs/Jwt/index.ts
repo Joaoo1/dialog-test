@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-
 import type { IJwt, JwtPayload } from './IJwt';
 
 export class Jwt implements IJwt {

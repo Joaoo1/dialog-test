@@ -1,4 +1,4 @@
 export interface TogglePostLikeDTO {
-	postId: string;
-	userId: string;
+  postId: string;
+  userId: string;
 }

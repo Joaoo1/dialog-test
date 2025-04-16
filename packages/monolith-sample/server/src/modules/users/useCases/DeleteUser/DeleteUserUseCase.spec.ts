@@ -1,24 +1,24 @@
-import { generateFakeUser } from "../../../../common/factories/generateFakeUser";
-import { UsersRepository } from "../../repositories/UsersRepository";
-import { DeleteUserUseCase } from "./DeleteUserUseCase";
+import { generateFakeUser } from '../../../../common/factories/generateFakeUser';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { DeleteUserUseCase } from './DeleteUserUseCase';
 
 const makeSut = async () => {
-	const usersRepository = new UsersRepository();
-	const sut = new DeleteUserUseCase(usersRepository);
+  const usersRepository = new UsersRepository();
+  const sut = new DeleteUserUseCase(usersRepository);
 
-	return { sut, usersRepository };
+  return { sut, usersRepository };
 };
 
-describe("Delete User", () => {
-	it("should delete an existing user successfully", async () => {
-		const { sut, usersRepository } = await makeSut();
+describe('Delete User', () => {
+  it('should delete an existing user successfully', async () => {
+    const { sut, usersRepository } = await makeSut();
 
-		const user = await generateFakeUser("123456");
+    const user = await generateFakeUser('123456');
 
-		await sut.execute(user.id);
+    await sut.execute(user.id);
 
-		const deletedUser = await usersRepository.findById(user.id);
+    const deletedUser = await usersRepository.findById(user.id);
 
-		expect(deletedUser).toBeNull();
-	});
+    expect(deletedUser).toBeNull();
+  });
 });

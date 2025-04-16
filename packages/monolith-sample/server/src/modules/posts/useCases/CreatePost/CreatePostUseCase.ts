@@ -1,19 +1,19 @@
-import { wsEventEmitter } from "../../../../server/websocket";
-import { WebSocketEvents } from "../../../../server/websocket/events";
-import type { CreatePostDTO } from "../../dtos/CreatePostDTO";
-import type { IPostsRepository } from "../../repositories/IPostsRepository";
+import { wsEventEmitter } from '../../../../server/websocket';
+import { WebSocketEvents } from '../../../../server/websocket/events';
+import type { CreatePostDTO } from '../../dtos/CreatePostDTO';
+import type { IPostsRepository } from '../../repositories/IPostsRepository';
 
 export class CreatePostUseCase {
-	constructor(private readonly postsRepository: IPostsRepository) {}
+  constructor(private readonly postsRepository: IPostsRepository) {}
 
-	async execute({ text, createdBy }: CreatePostDTO) {
-		const post = await this.postsRepository.create({
-			text,
-			createdBy,
-		});
+  async execute({ text, createdBy }: CreatePostDTO) {
+    const post = await this.postsRepository.create({
+      text,
+      createdBy,
+    });
 
-		wsEventEmitter.emit(WebSocketEvents.NEW_POST);
+    wsEventEmitter.emit(WebSocketEvents.NEW_POST);
 
-		return post;
-	}
+    return post;
+  }
 }

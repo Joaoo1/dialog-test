@@ -1,0 +1,31 @@
+{
+  "files": {
+    "ignore": ["*.json", "coverage/*", "dist/*"]
+  },
+  "linter": {
+    "enabled": true,
+
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noForEach": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "include": ["packages/monolith-sample/server/**"],
+      "formatter": {
+        "indentWidth": 2,
+        "indentStyle": "space"
+      },
+      "javascript": {
+        "formatter": {
+          "quoteStyle": "single",
+          "arrowParentheses": "asNeeded",
+          "trailingCommas": "es5"
+        }
+      }
+    }
+  ]
+}

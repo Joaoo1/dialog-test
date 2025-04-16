@@ -1,8 +1,8 @@
-import validate from "express-zod-safe";
-import { z } from "../../../../common/libs/PtZod";
+import validate from 'express-zod-safe';
+import { z } from '../../../../common/libs/PtZod';
 
 const body = z.object({
-	text: z.string().nonempty(),
+  text: z.string().nonempty(),
 });
 
 export const CreatePostValidator = validate({ body });

@@ -1,4 +1,4 @@
 export interface DeletePostDTO {
-	id: string;
-	createdBy: string;
+  id: string;
+  createdBy: string;
 }

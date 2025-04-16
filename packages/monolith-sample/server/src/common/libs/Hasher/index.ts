@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-
 import type { IHasher } from './IHasher';
 
 export class Bcrypt implements IHasher {

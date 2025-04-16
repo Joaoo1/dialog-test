@@ -1,12 +1,12 @@
-import { Router } from "express";
-import { EnsureAuthenticated } from "../../common/middlewares/EnsureAuthenticated";
-import { CreatePostController } from "./useCases/CreatePost/CreatePostController";
-import { CreatePostValidator } from "./useCases/CreatePost/CreatePostValidator";
-import { DeletePostController } from "./useCases/DeletePost/DeletePostController";
-import { DeletePostValidator } from "./useCases/DeletePost/DeletePostValidator";
-import { ListPostsController } from "./useCases/ListPosts/ListPostsController";
-import { TogglePostLikeController } from "./useCases/TogglePostLike/TogglePostLikeController";
-import { TogglePostLikeValidator } from "./useCases/TogglePostLike/TogglePostLikeValidator";
+import { Router } from 'express';
+import { EnsureAuthenticated } from '../../common/middlewares/EnsureAuthenticated';
+import { CreatePostController } from './useCases/CreatePost/CreatePostController';
+import { CreatePostValidator } from './useCases/CreatePost/CreatePostValidator';
+import { DeletePostController } from './useCases/DeletePost/DeletePostController';
+import { DeletePostValidator } from './useCases/DeletePost/DeletePostValidator';
+import { ListPostsController } from './useCases/ListPosts/ListPostsController';
+import { TogglePostLikeController } from './useCases/TogglePostLike/TogglePostLikeController';
+import { TogglePostLikeValidator } from './useCases/TogglePostLike/TogglePostLikeValidator';
 
 const postsRouter = Router();
 
@@ -17,13 +17,13 @@ const togglePostLikeController = new TogglePostLikeController();
 
 postsRouter.use(EnsureAuthenticated);
 
-postsRouter.get("/", listPostsController.handle);
-postsRouter.post("/", CreatePostValidator, createPostController.handle);
-postsRouter.delete("/:id", DeletePostValidator, deletePostController.handle);
+postsRouter.get('/', listPostsController.handle);
+postsRouter.post('/', CreatePostValidator, createPostController.handle);
+postsRouter.delete('/:id', DeletePostValidator, deletePostController.handle);
 postsRouter.post(
-	"/:postId/like",
-	TogglePostLikeValidator,
-	togglePostLikeController.handle,
+  '/:postId/like',
+  TogglePostLikeValidator,
+  togglePostLikeController.handle
 );
 
 export { postsRouter };

@@ -1,19 +1,19 @@
-import type { Insertable } from "kysely";
-import type { PostsTable } from "../../../database/types";
-import type { Post } from "../entities/Post";
+import type { Insertable } from 'kysely';
+import type { PostsTable } from '../../../database/types';
+import type { Post } from '../entities/Post';
 
 export interface ListPost {
-	id: string;
-	text: string;
-	createdAt: Date;
-	authorName: string;
-	likesCount: number;
-	likedByUser: boolean;
+  id: string;
+  text: string;
+  createdAt: Date;
+  authorName: string;
+  likesCount: number;
+  likedByUser: boolean;
 }
 
 export interface IPostsRepository {
-	list(currentUserId: string): Promise<ListPost[]>;
-	findById(id: string): Promise<Post | null>;
-	create(postData: Insertable<PostsTable>): Promise<Post>;
-	delete(id: string, createdBy: string): Promise<boolean>;
+  list(currentUserId: string): Promise<ListPost[]>;
+  findById(id: string): Promise<Post | null>;
+  create(postData: Insertable<PostsTable>): Promise<Post>;
+  delete(id: string, createdBy: string): Promise<boolean>;
 }
