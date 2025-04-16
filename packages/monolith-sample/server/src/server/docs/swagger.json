@@ -10,6 +10,15 @@
 			"url": "http://localhost:5000"
 		}
 	],
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
 	"paths": {
 		"/api/auth/sign-in": {
 			"post": {
@@ -159,6 +168,88 @@
 					},
 					"409": {
 						"description": "Conflict (e.g., user already exists)."
+					},
+					"429": {
+						"description": "Too many requests (rate limit exceeded)."
+					}
+				}
+			}
+		},
+		"/api/auth/update": {
+			"put": {
+				"summary": "Update an existing user",
+				"description": "Updates an existing user's details.",
+				"tags": ["Authentication"],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"format": "email",
+										"example": "updateduser@example.com",
+										"description": "The updated email address of the user."
+									},
+									"name": {
+										"type": "string",
+										"example": "Updated Name",
+										"description": "The updated name of the user."
+									}
+								},
+								"required": ["id"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User successfully updated.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"user": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string",
+													"example": "12345",
+													"description": "The unique identifier of the user."
+												},
+												"email": {
+													"type": "string",
+													"example": "updateduser@example.com",
+													"description": "The updated email address of the user."
+												},
+												"name": {
+													"type": "string",
+													"example": "Updated Name",
+													"description": "The updated name of the user."
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request (e.g., missing or invalid fields)."
+					},
+					"404": {
+						"description": "User not found."
+					},
+					"409": {
+						"description": "Conflict (e.g., email already in use)."
 					},
 					"429": {
 						"description": "Too many requests (rate limit exceeded)."

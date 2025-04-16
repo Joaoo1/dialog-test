@@ -59,7 +59,9 @@ describe("Create User", () => {
 
 		const createdUser = await usersRepository.findByEmail(email);
 
-		if (!createdUser) return;
+		if (!createdUser) {
+			throw new Error("User not found");
+		}
 
 		const isValidPassword = await hasher.compare(
 			password,
