@@ -279,6 +279,72 @@
 					}
 				}
 			}
+		},
+		"/api/posts": {
+			"post": {
+				"summary": "Create a new post",
+				"tags": ["Posts"],
+				"security": [{ "bearerAuth": [] }],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"text": { "type": "string" }
+								},
+								"required": ["text"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Post created"
+					}
+				}
+			}
+		},
+		"/api/posts/{id}": {
+			"delete": {
+				"summary": "Delete a post",
+				"tags": ["Posts"],
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "string" }
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "Post deleted"
+					}
+				}
+			}
+		},
+		"/api/posts/{postId}/like": {
+			"post": {
+				"summary": "Toggle like on a post",
+				"tags": ["Posts"],
+				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"name": "postId",
+						"in": "path",
+						"required": true,
+						"schema": { "type": "string" }
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Like toggled"
+					}
+				}
+			}
 		}
 	}
 }
