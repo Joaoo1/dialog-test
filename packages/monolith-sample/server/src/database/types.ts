@@ -2,6 +2,7 @@ import type { ColumnType } from "kysely";
 
 export interface Database {
 	users: UsersTable;
+	posts: PostsTable;
 }
 
 interface BaseTable {
@@ -13,4 +14,9 @@ export interface UsersTable extends BaseTable {
 	name: string;
 	email: string;
 	passwordHash: string;
+}
+
+export interface PostsTable extends BaseTable {
+	text: string;
+	createdBy: string;
 }
