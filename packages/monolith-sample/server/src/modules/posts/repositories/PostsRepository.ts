@@ -28,4 +28,13 @@ export class PostsRepository implements IPostsRepository {
 
 		return post;
 	}
+
+	async delete(id: string, createdBy: string): Promise<boolean> {
+		const result = await db
+			.deleteFrom("posts")
+			.where("id", "=", id)
+			.where("createdBy", "=", createdBy)
+			.executeTakeFirst();
+		return !!result.numDeletedRows;
+	}
 }

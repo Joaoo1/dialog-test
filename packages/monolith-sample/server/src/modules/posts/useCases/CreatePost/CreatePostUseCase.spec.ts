@@ -14,7 +14,7 @@ describe("Create Post", () => {
 	it("should create a new post successfully", async () => {
 		const { sut, postsRepository } = makeSut();
 
-		const user = await generateFakeUser("123");
+		const user = await generateFakeUser();
 
 		const post = await sut.execute({
 			text: faker.lorem.sentence(),
