@@ -1,4 +1,6 @@
+import type { Insertable } from "kysely";
 import { db } from "../../../database";
+import type { UsersTable } from "../../../database/types";
 import type { User } from "../entities/User";
 import type { IUsersRepository } from "./IUsersRepository";
 
@@ -14,5 +16,15 @@ export class UsersRepository implements IUsersRepository {
 		if (!user) return null;
 
 		return user;
+	}
+
+	async create(userData: Insertable<UsersTable>): Promise<User> {
+		const [createdUser] = await db
+			.insertInto("users")
+			.values(userData)
+			.returningAll()
+			.execute();
+
+		return createdUser;
 	}
 }

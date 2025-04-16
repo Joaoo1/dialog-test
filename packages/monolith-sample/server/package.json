@@ -10,7 +10,9 @@
 		"build": "tsc",
 		"start": "node --env-file .env dist/src/server/index.js",
 		"db:migrate": "ts-node-dev --env-file .env src/database/migrator.ts",
-		"db:migrate:test": "ts-node-dev --env-file .env.test src/database/migrator.ts"
+		"db:migrate:test": "ts-node-dev --env-file .env.test src/database/migrator.ts",
+		"pretest": "npm run db:migrate:test",
+		"test": "dotenv -e .env.test -- jest"
 	},
 	"dependencies": {
 		"bcrypt": "^5.1.1",
@@ -34,9 +36,13 @@
 		"@types/bcrypt": "^5.0.2",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^4.17.21",
+		"@types/jest": "^29.5.14",
 		"@types/jsonwebtoken": "^9.0.9",
 		"@types/pg": "^8.11.13",
 		"@types/swagger-ui-express": "^4.1.8",
+		"dotenv-cli": "^8.0.0",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.3.2",
 		"ts-node-dev": "^2.0.0",
 		"typescript": "^5.8.2"
 	}

@@ -85,6 +85,86 @@
 					}
 				}
 			}
+		},
+		"/api/auth/sign-up": {
+			"post": {
+				"summary": "Create a new user",
+				"description": "Creates a new user and returns the created user data.",
+				"tags": ["Authentication"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"format": "email",
+										"example": "newuser@example.com",
+										"description": "The new user's email address."
+									},
+									"password": {
+										"type": "string",
+										"format": "password",
+										"example": "password123",
+										"description": "The new user's password."
+									},
+									"name": {
+										"type": "string",
+										"example": "John Doe",
+										"description": "The new user's name."
+									}
+								},
+								"required": ["email", "password", "name"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User successfully created.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"user": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string",
+													"example": "67890",
+													"description": "The new user's unique identifier."
+												},
+												"email": {
+													"type": "string",
+													"example": "newuser@example.com",
+													"description": "The new user's email address."
+												},
+												"name": {
+													"type": "string",
+													"example": "John Doe",
+													"description": "The new user's name."
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request (e.g., missing or invalid fields)."
+					},
+					"409": {
+						"description": "Conflict (e.g., user already exists)."
+					},
+					"429": {
+						"description": "Too many requests (rate limit exceeded)."
+					}
+				}
+			}
 		}
 	}
 }
