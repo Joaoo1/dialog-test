@@ -1,0 +1,14 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Plathanus Backend API",
+		"version": "1.0.0",
+		"description": "API documentation for the Plathanus Backend."
+	},
+	"servers": [
+		{
+			"url": "http://localhost:5000"
+		}
+	],
+	"paths": {}
+}
