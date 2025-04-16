@@ -1,5 +1,5 @@
 import type { ErrorRequestHandler } from "express";
-import { AppError } from "../../../common/AppError";
+import { AppError } from "../../common/AppError";
 import { env } from "../../env";
 
 export const ExceptionHandler: ErrorRequestHandler = (
