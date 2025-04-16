@@ -10,6 +10,8 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - './server/docker/dev:/docker-entrypoint-initdb.d'
+    networks:
+      - dialog_network
 
   db_test:
     image: postgres
@@ -21,6 +23,8 @@ services:
       - 5433:5432
     volumes:
       - './server/docker/test:/docker-entrypoint-initdb.d'
+    networks:
+      - dialog_network
 
   server:
     build:
@@ -39,6 +43,8 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
+    networks:
+      - dialog_network
 
   client:
     build:
@@ -55,6 +61,12 @@ services:
       - ./client/.env
     depends_on:
       - server
+    networks:
+      - dialog_network
 
 volumes:
   db_data:
+
+networks:
+  dialog_network:
+    driver: bridge

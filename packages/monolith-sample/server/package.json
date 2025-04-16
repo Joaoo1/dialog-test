@@ -6,27 +6,35 @@
 		"node": ">=20.16.0"
 	},
 	"scripts": {
-		"dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --env-file .env src/server/index.ts",
+		"dev": "ts-node-dev --poll --respawn --transpile-only --ignore-watch node_modules --env-file .env src/server/index.ts",
 		"build": "tsc",
 		"start": "node --env-file .env dist/src/server/index.js",
 		"db:migrate": "ts-node-dev --env-file .env src/database/migrator.ts",
 		"db:migrate:test": "ts-node-dev --env-file .env.test src/database/migrator.ts"
 	},
 	"dependencies": {
+		"bcrypt": "^5.1.1",
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
 		"express-async-errors": "^3.1.1",
 		"express-rate-limit": "^7.5.0",
+		"express-zod-safe": "^1.4.0",
 		"helmet": "^8.1.0",
+		"i18next": "^25.0.0",
+		"jsonwebtoken": "^9.0.2",
 		"kysely": "^0.28.0",
 		"pg": "^8.14.1",
 		"swagger-ui-express": "^5.0.1",
-		"zod": "^3.24.2"
+		"zod": "^3.24.2",
+		"zod-i18n-map": "^2.27.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
+		"@faker-js/faker": "^9.7.0",
+		"@types/bcrypt": "^5.0.2",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^4.17.21",
+		"@types/jsonwebtoken": "^9.0.9",
 		"@types/pg": "^8.11.13",
 		"@types/swagger-ui-express": "^4.1.8",
 		"ts-node-dev": "^2.0.0",
