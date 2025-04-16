@@ -6,6 +6,7 @@ export interface ListPost {
   id: string;
   text: string;
   createdAt: Date;
+  authorId: string;
   authorName: string;
   likesCount: number;
   likedByUser: boolean;

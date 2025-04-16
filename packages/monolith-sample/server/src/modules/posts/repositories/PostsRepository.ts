@@ -14,6 +14,7 @@ export class PostsRepository implements IPostsRepository {
         'posts.id',
         'posts.text',
         'posts.createdAt',
+        'users.id as authorId',
         'users.name as authorName',
         db.fn.count('posts_likes.id').as('likesCount'),
         sql<boolean>`
@@ -26,7 +27,7 @@ export class PostsRepository implements IPostsRepository {
 				END
 			  `.as('likedByUser'),
       ])
-      .groupBy(['posts.id', 'users.name'])
+      .groupBy(['posts.id', 'users.name', 'users.id'])
       .orderBy('posts.createdAt', 'desc')
       .execute();
 

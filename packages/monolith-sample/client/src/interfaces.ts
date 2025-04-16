@@ -1,16 +1,27 @@
 export interface Post {
-	id: number;
-	text: string;
-	likes: number;
+  id: number;
+  text: string;
+  createdBy: string;
+  createdAt: Date;
+}
+
+export interface ListPost {
+  id: string;
+  text: string;
+  createdAt: Date;
+  authorId: string;
+  authorName: string;
+  likesCount: number;
+  likedByUser: boolean;
 }
 
 export interface User {
-	id: string;
-	name: string;
-	email: string;
-	createdAt: Date;
+  id: string;
+  name: string;
+  email: string;
+  createdAt: Date;
 }
 
 export interface DefaultApiError {
-	message: string;
+  message: string;
 }
