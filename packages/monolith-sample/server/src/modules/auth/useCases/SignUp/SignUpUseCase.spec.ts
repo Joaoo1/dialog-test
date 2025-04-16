@@ -3,19 +3,19 @@ import { generateFakeUser } from "../../../../common/factories/generateFakeUser"
 import { Bcrypt } from "../../../../common/libs/Hasher";
 import { UserAlreadyExistsError } from "../../errors/UserAlreadyExistsError";
 import { UsersRepository } from "../../repositories/UsersRepository";
-import { CreateUserUseCase } from "./CreateUserUseCase";
+import { SignUpUseCase } from "./SignUpUseCase";
 
 const makeSut = async () => {
 	const password = faker.string.alphanumeric(12);
 	const user = await generateFakeUser(password);
 	const hasher = new Bcrypt();
 	const usersRepository = new UsersRepository();
-	const sut = new CreateUserUseCase(usersRepository, hasher);
+	const sut = new SignUpUseCase(usersRepository, hasher);
 
 	return { sut, user, usersRepository, hasher };
 };
 
-describe("Create User", () => {
+describe("Sign up", () => {
 	it("should create a new user successfully", async () => {
 		const { sut, usersRepository } = await makeSut();
 

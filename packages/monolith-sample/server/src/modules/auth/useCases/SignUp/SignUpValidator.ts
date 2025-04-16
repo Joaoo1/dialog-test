@@ -7,6 +7,6 @@ const body = z.object({
 	name: z.string().nonempty(),
 });
 
-export const CreateUserValidator = validate({ body });
+export const SignUpValidator = validate({ body });
 
-export type CreateUserRequest = Parameters<typeof CreateUserValidator>[0];
+export type SignUpRequest = Parameters<typeof SignUpValidator>[0];

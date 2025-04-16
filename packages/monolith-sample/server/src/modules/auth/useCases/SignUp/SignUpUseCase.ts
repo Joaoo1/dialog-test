@@ -1,15 +1,15 @@
 import type { IHasher } from "../../../../common/libs/Hasher/IHasher";
-import type { ICreateUserUserDTO } from "../../dtos/ICreateUserUserDTO";
+import type { ISignUpDTO } from "../../dtos/ISignUpDTO";
 import { UserAlreadyExistsError } from "../../errors/UserAlreadyExistsError";
 import type { IUsersRepository } from "../../repositories/IUsersRepository";
 
-export class CreateUserUseCase {
+export class SignUpUseCase {
 	constructor(
 		private readonly usersRepository: IUsersRepository,
 		private readonly hasher: IHasher,
 	) {}
 
-	async execute({ email, password, name }: ICreateUserUserDTO) {
+	async execute({ email, password, name }: ISignUpDTO) {
 		const user = await this.usersRepository.findByEmail(email);
 
 		if (user) {

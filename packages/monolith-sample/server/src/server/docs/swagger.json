@@ -175,11 +175,11 @@
 				}
 			}
 		},
-		"/api/auth/update": {
+		"/api/users": {
 			"put": {
 				"summary": "Update an existing user",
 				"description": "Updates an existing user's details.",
-				"tags": ["Authentication"],
+				"tags": ["Users"],
 				"security": [
 					{
 						"bearerAuth": []
@@ -255,13 +255,11 @@
 						"description": "Too many requests (rate limit exceeded)."
 					}
 				}
-			}
-		},
-		"/api/auth/delete": {
+			},
 			"delete": {
 				"summary": "Delete the authenticated user",
 				"description": "Deletes the currently authenticated user.",
-				"tags": ["Authentication"],
+				"tags": ["Users"],
 				"security": [
 					{
 						"bearerAuth": []

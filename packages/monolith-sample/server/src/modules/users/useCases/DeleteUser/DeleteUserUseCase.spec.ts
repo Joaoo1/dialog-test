@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { generateFakeUser } from "../../../../common/factories/generateFakeUser";
 import { UsersRepository } from "../../repositories/UsersRepository";
 import { DeleteUserUseCase } from "./DeleteUserUseCase";
