@@ -1,6 +1,6 @@
 import { Box, Image } from '@chakra-ui/react';
-import fullLogo from '../../../../../assets/full-logo.png';
-import logo from '../../../../../assets/logo.svg';
+import fullLogo from '../../../assets/full-logo.png';
+import logo from '../../../assets/logo.svg';
 
 export const LeftContainer: React.FC = () => {
   return (

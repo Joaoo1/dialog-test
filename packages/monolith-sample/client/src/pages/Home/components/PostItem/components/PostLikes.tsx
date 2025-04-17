@@ -1,6 +1,7 @@
 import { Flex, IconButton, Text } from '@chakra-ui/react';
 import { BiLike } from 'react-icons/bi';
 import { useToggleLike } from '../../../../../hooks/api/useToggleLike';
+import { useAuth } from '../../../../../hooks/context/useAuth';
 import type { ListPost } from '../../../../../interfaces';
 
 interface Props {
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export const PostLikes: React.FC<Props> = ({ post }) => {
+  const { isAuthenticated } = useAuth();
+
   const { mutate: toggleLike, isPending } = useToggleLike();
 
   const handleLike = () => {
@@ -25,18 +28,20 @@ export const PostLikes: React.FC<Props> = ({ post }) => {
       mt="2"
       alignItems="center"
     >
-      <IconButton
-        cursor="pointer"
-        aria-label="Dar like"
-        variant="ghost"
-        colorScheme="whiteAlpha"
-        as={BiLike}
-        boxSize="32px"
-        onClick={handleLike}
-        color={post.likedByUser ? 'brand.500' : 'gray.300'}
-        isLoading={isPending}
-        p="1"
-      />
+      {isAuthenticated && (
+        <IconButton
+          cursor="pointer"
+          aria-label="Dar like"
+          variant="ghost"
+          colorScheme="whiteAlpha"
+          as={BiLike}
+          boxSize="32px"
+          onClick={handleLike}
+          color={post.likedByUser ? 'brand.500' : 'gray.300'}
+          isLoading={isPending}
+          p="1"
+        />
+      )}
       <Text color="gray.200">
         {post.likesCount} {likesText}
       </Text>

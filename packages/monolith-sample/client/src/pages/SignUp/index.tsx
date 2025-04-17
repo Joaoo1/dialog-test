@@ -1,17 +1,18 @@
-import { Box, Flex, IconButton, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import fullLogo from '../../assets/full-logo.png';
-import { SignInForm } from './components/SignInForm';
+import { SignUpForm } from './components/SignUpForm';
 
-export const SignIn: React.FC = () => {
+export const SignUp: React.FC = () => {
   const navigate = useNavigate();
+  const goBack = () => navigate(-1);
 
   return (
     <Flex alignItems="center" justifyContent="center" height="100vh">
       <IconButton
-        aria-label="Voltar para home"
-        title="Voltar para home"
+        aria-label="Voltar"
+        title="Voltar"
         as={FiArrowLeft}
         boxSize={8}
         position="absolute"
@@ -20,7 +21,7 @@ export const SignIn: React.FC = () => {
         variant="ghost"
         colorScheme="white"
         cursor="pointer"
-        onClick={() => navigate('/')}
+        onClick={goBack}
       />
       <Box maxW="400px" width="100%" px="4">
         <Image
@@ -31,16 +32,7 @@ export const SignIn: React.FC = () => {
           marginInline="auto"
         />
 
-        <SignInForm />
-
-        <Box borderTop="1px" borderColor="gray.600" pt={8} mt={10} />
-
-        <Text textAlign="center">
-          Não possui uma conta?{' '}
-          <Box color="brand.600" fontWeight="bold" as={Link} to="/sign-up">
-            Cadastre-se
-          </Box>
-        </Text>
+        <SignUpForm />
       </Box>
     </Flex>
   );

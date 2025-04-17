@@ -1,5 +1,6 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Checkbox, Flex, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdArrowForward } from 'react-icons/md';
 import { z } from 'zod';
@@ -15,16 +16,17 @@ const signInFormSchema = z.object({
   password: z.string().min(1, { message: 'Este campo é obrigatório' }),
 });
 
-type ILoginFormData = z.infer<typeof signInFormSchema>;
+type ISignInFormData = z.infer<typeof signInFormSchema>;
 
 export const SignInForm: React.FC = () => {
   const { signIn, isAuthenticating } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ILoginFormData>({
+  } = useForm<ISignInFormData>({
     resolver: zodResolver(signInFormSchema, { async: false }),
   });
 
@@ -55,13 +57,15 @@ export const SignInForm: React.FC = () => {
       </Label>
 
       <Label>
-        <Text pb="6px" size="sm">
-          Senha
-        </Text>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text pb="6px" size="sm">
+            Senha
+          </Text>
+        </Flex>
         <TextInput
           isRequired
           placeholder="Digite sua senha"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           {...register('password')}
         />
 
@@ -70,6 +74,14 @@ export const SignInForm: React.FC = () => {
             {errors.password.message}
           </Text>
         )}
+
+        <Checkbox
+          colorScheme="brand"
+          size="sm"
+          onChange={e => setShowPassword(e.target.checked)}
+        >
+          Mostra senha
+        </Checkbox>
       </Label>
 
       <Button

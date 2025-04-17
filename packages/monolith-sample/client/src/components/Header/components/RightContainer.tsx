@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../../../../../hooks/context/useAuth';
+import { useAuth } from '../../../hooks/context/useAuth';
 import { CreatePostModal } from './CreatePostModal';
 
 export const RightContainer: React.FC = () => {
@@ -18,19 +18,29 @@ export const RightContainer: React.FC = () => {
         onClick={() => navigate('/sign-in')}
         justifySelf="flex-end"
         paddingInline="8"
+        mr="2"
       >
         Entrar
       </Button>
     );
   }
 
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
   return (
-    <Flex gap="2" justifyContent="flex-end">
+    <Flex gap="2" justifyContent="flex-end" mr="2">
       {showCreateModal && (
         <CreatePostModal onClose={() => setShowCreateModal(false)} />
       )}
 
-      <Flex>
+      <Button
+        variant="ghost"
+        color="white"
+        colorScheme="whiteAlpha"
+        onClick={handleProfileClick}
+      >
         <Flex
           flexDirection="column"
           alignItems="flex-end"
@@ -55,7 +65,7 @@ export const RightContainer: React.FC = () => {
             {user?.email}
           </Text>
         </Flex>
-      </Flex>
+      </Button>
 
       <Button
         aria-label="Sair"

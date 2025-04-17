@@ -1,74 +1,76 @@
 import localforage from 'localforage';
 import {
-	type PropsWithChildren,
-	createContext,
-	useCallback,
-	useEffect,
-	useState,
+  type PropsWithChildren,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
 } from 'react';
 import { toast } from 'react-toastify';
 
+import { useFetchUser } from '../hooks/api/useFetchUser';
 import { type SignInParams, useSignIn } from '../hooks/api/useSignIn';
 import type { User } from '../interfaces';
 
 interface AuthContextProps {
-	signIn: (data: SignInParams) => void;
-	signOut: () => void;
-	isAuthenticated: boolean;
-	isAuthenticating: boolean;
-	isLoadingAuthInfo: boolean;
-	user: User | null;
+  signIn: (data: SignInParams) => void;
+  signOut: () => void;
+  isAuthenticated: boolean;
+  isAuthenticating: boolean;
+  isLoadingAuthInfo: boolean;
+  user: User | null;
 }
 
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [user, setUser] = useState<User | null>(null);
-	const [isLoadingAuthInfo, setLoadingAuthInfo] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoadingAuthInfo, setLoadingAuthInfo] = useState(true);
 
-	const init = useCallback(async () => {
-		const user = await localforage.getItem<User>('user');
-		setUser(user);
+  const { data } = useFetchUser({ enabled: !!user });
 
-		setLoadingAuthInfo(false);
-	}, []);
+  const init = useCallback(async () => {
+    const user = await localforage.getItem<User>('user');
+    setUser(user);
 
-	useEffect(() => {
-		init();
-	}, [init]);
+    setLoadingAuthInfo(false);
+  }, []);
 
-	const { mutate: login, isPending: isAuthenticating } = useSignIn({
-		onSuccess: async data => {
-			await localforage.setItem('user', data.user);
-			await localforage.setItem('token', data.token);
+  useEffect(() => {
+    init();
+  }, [init]);
 
-			await init();
-		},
-		onError: err => {
-			toast.error(err?.response?.data?.message ?? 'Erro');
-		},
-	});
+  const { mutate: login, isPending: isAuthenticating } = useSignIn({
+    onSuccess: async data => {
+      await localforage.setItem('user', data.user);
+      await localforage.setItem('token', data.token);
 
-	const signOut = async () => {
-		await localforage.removeItem('user');
-		await localforage.removeItem('token');
+      await init();
+    },
+    onError: err => {
+      toast.error(err?.response?.data?.message ?? 'Erro');
+    },
+  });
 
-		setUser(null);
-		window.location.href = '/';
-	};
+  const signOut = async () => {
+    await localforage.removeItem('user');
+    await localforage.removeItem('token');
 
-	return (
-		<AuthContext.Provider
-			value={{
-				signIn: login,
-				isAuthenticated: !!user,
-				isLoadingAuthInfo,
-				user,
-				signOut,
-				isAuthenticating,
-			}}
-		>
-			{children}
-		</AuthContext.Provider>
-	);
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        signIn: login,
+        isAuthenticated: !!user,
+        isLoadingAuthInfo,
+        user: data ?? user,
+        signOut,
+        isAuthenticating,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };

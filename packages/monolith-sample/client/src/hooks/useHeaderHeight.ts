@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Sizes } from '../../../styles/sizes';
+import { Sizes } from '../styles/sizes';
 
 export const useHeaderHeight = () => {
   const [isShrunken, setShrunken] = useState(false);

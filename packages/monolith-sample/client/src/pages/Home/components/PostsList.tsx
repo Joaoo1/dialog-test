@@ -5,8 +5,8 @@ import { useSearchParams } from 'react-router';
 import { Loading } from '../../../components/Loading';
 import { useFetchPosts } from '../../../hooks/api/useFetchPosts';
 import { useAuth } from '../../../hooks/context/useAuth';
+import { useHeaderHeight } from '../../../hooks/useHeaderHeight';
 import { WebSocketEvents, socket } from '../../../services/socket';
-import { useHeaderHeight } from '../hooks/useHeaderHeight';
 import { PostItem } from './PostItem';
 
 export const PostsList: React.FC = () => {

@@ -36,6 +36,7 @@ export const SetRequestUserIfAuthenticated: RequestHandler = async (
     }
 
     request.user = { id: user.id };
+  } catch {
   } finally {
     next();
   }

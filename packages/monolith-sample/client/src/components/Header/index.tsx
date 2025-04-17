@@ -19,6 +19,7 @@ export const Header: React.FC = () => {
       zIndex={2}
       boxShadow="0px 5px 10px 1px rgba(0,0,0,0.3)"
       transition="0.4s"
+      py="2"
     >
       <Grid
         gridTemplateColumns={{

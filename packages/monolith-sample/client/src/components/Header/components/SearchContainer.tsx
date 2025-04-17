@@ -1,8 +1,8 @@
 import { Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { TextInput } from '../../../../../components/TextInput';
-import { useDebounce } from '../../../../../hooks/useDebounce';
+import { useDebounce } from '../../../hooks/useDebounce';
+import { TextInput } from '../../TextInput';
 
 export const SearchContainer: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { Header } from './components/Header';
+import { Header } from '../../components/Header';
 import { PostsList } from './components/PostsList';
 
 export const Home: React.FC = () => {
