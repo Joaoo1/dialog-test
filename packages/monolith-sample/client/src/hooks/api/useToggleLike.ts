@@ -18,7 +18,7 @@ export const useToggleLike = () => {
       );
       return response.data;
     },
-    onSuccess: ({ postId, isLiked, userId }) => {
+    onSuccess: ({ postId, isLiked }) => {
       const [query] = queryClient
         .getQueryCache()
         .findAll({ queryKey: ['posts'], exact: false });
@@ -32,7 +32,7 @@ export const useToggleLike = () => {
           return {
             ...post,
             likesCount: isLiked ? post.likesCount + 1 : post.likesCount - 1,
-            likedByUser: post.authorId === userId && isLiked,
+            likedByUser: isLiked,
           };
         });
       });
