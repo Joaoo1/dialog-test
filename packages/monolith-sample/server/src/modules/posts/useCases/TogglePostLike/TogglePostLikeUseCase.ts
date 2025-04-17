@@ -21,6 +21,6 @@ export class TogglePostLikeUseCase {
       userId,
     });
 
-    return { isLiked: true, postId, userId };
+    return { isLiked: true, postId };
   }
 }
