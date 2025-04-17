@@ -15,9 +15,10 @@ const createPostController = new CreatePostController();
 const deletePostController = new DeletePostController();
 const togglePostLikeController = new TogglePostLikeController();
 
+postsRouter.get('/', listPostsController.handle);
+
 postsRouter.use(EnsureAuthenticated);
 
-postsRouter.get('/', listPostsController.handle);
 postsRouter.post('/', CreatePostValidator, createPostController.handle);
 postsRouter.delete('/:id', DeletePostValidator, deletePostController.handle);
 postsRouter.post(

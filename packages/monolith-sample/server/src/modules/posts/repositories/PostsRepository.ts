@@ -5,7 +5,19 @@ import type { Post } from '../entities/Post';
 import type { IPostsRepository, ListPost } from './IPostsRepository';
 
 export class PostsRepository implements IPostsRepository {
-  async list(currentUserId: string): Promise<ListPost[]> {
+  async list(currentUserId?: string): Promise<ListPost[]> {
+    const likedByUserSql = currentUserId
+      ? sql<boolean>`
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 FROM posts_likes 
+            WHERE "postId" = posts.id AND "userId" = ${currentUserId}
+          ) THEN TRUE
+          ELSE FALSE
+        END
+      `
+      : sql<boolean>`FALSE`;
+
     const posts = await db
       .selectFrom('posts')
       .innerJoin('users', 'users.id', 'posts.createdBy')
@@ -17,15 +29,7 @@ export class PostsRepository implements IPostsRepository {
         'users.id as authorId',
         'users.name as authorName',
         db.fn.count('posts_likes.id').as('likesCount'),
-        sql<boolean>`
-				CASE 
-				  WHEN EXISTS (
-					SELECT 1 FROM posts_likes 
-					WHERE "postId" = posts.id AND "userId" = ${currentUserId}
-				  ) THEN TRUE
-				  ELSE FALSE
-				END
-			  `.as('likedByUser'),
+        likedByUserSql.as('likedByUser'),
       ])
       .groupBy(['posts.id', 'users.name', 'users.id'])
       .orderBy('posts.createdAt', 'desc')

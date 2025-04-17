@@ -13,7 +13,7 @@ export interface ListPost {
 }
 
 export interface IPostsRepository {
-  list(currentUserId: string): Promise<ListPost[]>;
+  list(currentUserId?: string): Promise<ListPost[]>;
   findById(id: string): Promise<Post | null>;
   create(postData: Insertable<PostsTable>): Promise<Post>;
   delete(id: string, createdBy: string): Promise<boolean>;
