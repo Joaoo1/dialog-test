@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { EnsureAuthenticated } from '../../common/middlewares/EnsureAuthenticated';
+import { SetRequestUserIfAuthenticated } from './middlewares/SetRequestUserIfAuthenticated';
 import { CreatePostController } from './useCases/CreatePost/CreatePostController';
 import { CreatePostValidator } from './useCases/CreatePost/CreatePostValidator';
 import { DeletePostController } from './useCases/DeletePost/DeletePostController';
@@ -15,7 +16,7 @@ const createPostController = new CreatePostController();
 const deletePostController = new DeletePostController();
 const togglePostLikeController = new TogglePostLikeController();
 
-postsRouter.get('/', listPostsController.handle);
+postsRouter.get('/', SetRequestUserIfAuthenticated, listPostsController.handle);
 
 postsRouter.use(EnsureAuthenticated);
 
