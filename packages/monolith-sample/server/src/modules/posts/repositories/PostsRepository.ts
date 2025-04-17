@@ -2,10 +2,10 @@ import { type Insertable, sql } from 'kysely';
 import { db } from '../../../database';
 import type { PostsTable } from '../../../database/types';
 import type { Post } from '../entities/Post';
-import type { IPostsRepository, ListPost } from './IPostsRepository';
+import type { IPostsRepository, ListPost, ListProps } from './IPostsRepository';
 
 export class PostsRepository implements IPostsRepository {
-  async list(currentUserId?: string): Promise<ListPost[]> {
+  async list({ currentUserId, search }: ListProps): Promise<ListPost[]> {
     const likedByUserSql = currentUserId
       ? sql<boolean>`
         CASE 
@@ -18,7 +18,7 @@ export class PostsRepository implements IPostsRepository {
       `
       : sql<boolean>`FALSE`;
 
-    const posts = await db
+    let query = db
       .selectFrom('posts')
       .innerJoin('users', 'users.id', 'posts.createdBy')
       .leftJoin('posts_likes', 'posts_likes.postId', 'posts.id')
@@ -30,9 +30,22 @@ export class PostsRepository implements IPostsRepository {
         'users.name as authorName',
         db.fn.count('posts_likes.id').as('likesCount'),
         likedByUserSql.as('likedByUser'),
-      ])
-      .groupBy(['posts.id', 'users.name', 'users.id'])
+      ]);
+
+    const mSearch = search?.trim();
+
+    if (mSearch) {
+      const words = mSearch.split(/\s+/).filter(Boolean);
+      for (const word of words) {
+        const searchTerm = `%${word}%`;
+        const rawSql = sql`(unaccent(posts.text) ILIKE unaccent(${searchTerm}))`;
+        query = query.where(rawSql as never);
+      }
+    }
+
+    const posts = await query
       .orderBy('posts.createdAt', 'desc')
+      .groupBy(['posts.id', 'users.name', 'users.id'])
       .execute();
 
     return posts.map(post => ({

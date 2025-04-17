@@ -1,4 +1,4 @@
-import { io } from '../../../../server';
+import { io } from '../../../../server/app';
 import { WebSocketEvents } from '../../../../server/websocket/events';
 import type { CreatePostDTO } from '../../dtos/CreatePostDTO';
 import type { IPostsRepository } from '../../repositories/IPostsRepository';

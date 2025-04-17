@@ -12,8 +12,13 @@ export interface ListPost {
   likedByUser: boolean;
 }
 
+export interface ListProps {
+  currentUserId?: string;
+  search?: string;
+}
+
 export interface IPostsRepository {
-  list(currentUserId?: string): Promise<ListPost[]>;
+  list(props: ListProps): Promise<ListPost[]>;
   findById(id: string): Promise<Post | null>;
   create(postData: Insertable<PostsTable>): Promise<Post>;
   delete(id: string, createdBy: string): Promise<boolean>;
