@@ -12,12 +12,15 @@ export class TogglePostLikeUseCase {
 
     if (alreadyLiked) {
       await this.postsLikesRepository.delete(postId, userId);
-      return;
+
+      return { isLiked: false, postId, userId };
     }
 
     await this.postsLikesRepository.create({
       postId,
       userId,
     });
+
+    return { isLiked: true, postId, userId };
   }
 }
