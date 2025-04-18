@@ -27,6 +27,7 @@ export const BaseModal: React.FC<IProps> = ({ onClickOutside, children }) => {
         onClick={e => {
           e.stopPropagation();
         }}
+        overflowY="auto"
         background="gray.800"
         border="1px solid"
         borderColor="gray.600"

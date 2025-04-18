@@ -1,4 +1,4 @@
-import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -13,13 +13,52 @@ interface UpdateProfileModalProps {
   onClose: () => void;
 }
 
-const UpdateProfileFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: 'Nome deve ter no mínimo 2 caracteres' })
-    .optional(),
-  email: z.string().email('Deve ser um e-mail válido').optional(),
-});
+const UpdateProfileFormSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, { message: 'Nome deve ter no mínimo 2 caracteres' })
+      .optional(),
+    email: z.string().email('Deve ser um e-mail válido').optional(),
+    currentPassword: z.string().optional(),
+    password: z
+      .string()
+      .min(8, { message: 'Senha deve ter no mínimo 8 caracteres' })
+      .regex(/[A-Z]/, { message: 'Ao menos uma letra maiúscula' })
+      .regex(/[0-9]/, { message: 'Ao menos um número' })
+      .optional()
+      .or(z.literal('')),
+    confirmPassword: z.string().optional(),
+  })
+  .superRefine(({ confirmPassword, password, currentPassword }, ctx) => {
+    if (!!currentPassword && !password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Nova senha é obrigatória quando a senha atual é informada',
+        path: ['password'],
+      });
+    }
+
+    if (!password) return;
+
+    if (!confirmPassword) {
+      ctx.addIssue({
+        code: 'custom',
+        message:
+          'Confirmação de senha é obrigatória quando nova senha é informada',
+        path: ['confirmPassword'],
+      });
+      return;
+    }
+
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'As senhas não coincidem',
+        path: ['confirmPassword'],
+      });
+    }
+  });
 
 type IUpdateProfileFormData = z.infer<typeof UpdateProfileFormSchema>;
 
@@ -41,16 +80,23 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({
     },
   });
 
-  const onSubmit = ({ email, name }: IUpdateProfileFormData) => {
+  const onSubmit = ({
+    email,
+    name,
+    password,
+    currentPassword,
+  }: IUpdateProfileFormData) => {
     updateProfile(
-      { email, name },
+      { email, name, password, currentPassword },
       {
         onSuccess: () => {
           toast.success('Perfil atualizado com sucesso!');
           onClose();
         },
-        onError: () => {
-          toast.error('Erro ao atualizar perfil!');
+        onError: err => {
+          const message =
+            err.response?.data?.message || 'Erro ao atualizar perfil';
+          toast.error(message);
         },
       }
     );
@@ -90,9 +136,62 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({
             {...register('name')}
           />
 
-          {errors.email && (
+          {errors.name && (
             <Text color="red" size="sm">
-              {errors.email.message}
+              {errors.name.message}
+            </Text>
+          )}
+        </Label>
+
+        <Box borderTop="1px" borderColor="gray.500" my="4" />
+
+        <Label>
+          <Text pb="6px" size="sm">
+            Senha atual
+          </Text>
+          <TextInput
+            placeholder="Digite a senha atual"
+            type="password"
+            {...register('currentPassword')}
+          />
+
+          {errors.currentPassword && (
+            <Text color="red" size="sm">
+              {errors.currentPassword.message}
+            </Text>
+          )}
+        </Label>
+
+        <Label>
+          <Text pb="6px" size="sm">
+            Senha
+          </Text>
+          <TextInput
+            placeholder="Digite a nova senha"
+            type="password"
+            {...register('password')}
+          />
+
+          {errors.password && (
+            <Text color="red" size="sm">
+              {errors.password.message}
+            </Text>
+          )}
+        </Label>
+
+        <Label>
+          <Text pb="6px" size="sm">
+            Confirmar Senha
+          </Text>
+          <TextInput
+            placeholder="Confirme a nova senha"
+            type="password"
+            {...register('confirmPassword')}
+          />
+
+          {errors.confirmPassword && (
+            <Text color="red" size="sm">
+              {errors.confirmPassword.message}
             </Text>
           )}
         </Label>
@@ -105,6 +204,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = ({
             colorScheme="brand"
             onClick={handleSubmit(onSubmit)}
             isLoading={isSubmitting || isLoading}
+            isDisabled={Object.keys(errors).length > 0}
           >
             Atualizar
           </Button>

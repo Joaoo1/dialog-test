@@ -1,10 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { User } from '../../interfaces';
+import type { AxiosError } from 'axios';
+import type { DefaultApiError, User } from '../../interfaces';
 import { api } from '../../services/api';
 
 interface UpdateProfileData {
   name?: string;
   email?: string;
+  currentPassword?: string;
+  password?: string;
 }
 
 interface UpdateProfileResponse {
@@ -19,7 +22,11 @@ export const useUpdateProfile = () => {
     return response.data;
   }
 
-  return useMutation({
+  return useMutation<
+    UpdateProfileResponse,
+    AxiosError<DefaultApiError>,
+    UpdateProfileData
+  >({
     mutationFn: handler,
     onSuccess: () => {
       queryClient.invalidateQueries({

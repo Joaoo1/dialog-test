@@ -258,9 +258,20 @@
 										"type": "string",
 										"example": "Updated Name",
 										"description": "The updated name of the user."
+									},
+									"currentPassword": {
+										"type": "string",
+										"format": "password",
+										"example": "oldPassword123",
+										"description": "The user's current password (required to change password)."
+									},
+									"password": {
+										"type": "string",
+										"format": "password",
+										"example": "NewPassword123",
+										"description": "The new password for the user."
 									}
-								},
-								"required": ["id"]
+								}
 							}
 						}
 					}
@@ -290,6 +301,12 @@
 													"type": "string",
 													"example": "Updated Name",
 													"description": "The updated name of the user."
+												},
+												"createdAt": {
+													"type": "string",
+													"format": "date-time",
+													"example": "2023-10-01T12:00:00Z",
+													"description": "The date and time when the user was created."
 												}
 											}
 										}
