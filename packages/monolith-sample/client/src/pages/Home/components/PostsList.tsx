@@ -1,4 +1,5 @@
 import { Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { MdArrowUpward } from 'react-icons/md';
 import { useSearchParams } from 'react-router';
@@ -6,26 +7,26 @@ import { Loading } from '../../../components/Loading';
 import { useFetchPosts } from '../../../hooks/api/useFetchPosts';
 import { useAuth } from '../../../hooks/context/useAuth';
 import { useHeaderHeight } from '../../../hooks/useHeaderHeight';
+import type { ListPost } from '../../../interfaces';
 import { WebSocketEvents, socket } from '../../../services/socket';
 import { PostItem } from './PostItem';
 
+interface LikeSocketData {
+  userId: string;
+  postId: string;
+  isLiked: boolean;
+}
+
+interface NewPostSocketData {
+  authorId: string;
+}
+
 export const PostsList: React.FC = () => {
   const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const headerHeight = useHeaderHeight();
   const [hasNewPosts, setHasNewPosts] = useState(false);
-
-  useEffect(() => {
-    socket.on(WebSocketEvents.NEW_POST, ({ authorId }) => {
-      setHasNewPosts(user?.id !== authorId);
-    });
-
-    socket.connect();
-
-    return () => {
-      socket.disconnect();
-    };
-  });
 
   const [searchParams] = useSearchParams();
   const search = searchParams.get('search') || '';
@@ -36,6 +37,49 @@ export const PostsList: React.FC = () => {
     refetch,
     isFetching,
   } = useFetchPosts({ search });
+
+  useEffect(() => {
+    socket.on(WebSocketEvents.NEW_POST, handleNewPostSocketEvent);
+
+    socket.on(WebSocketEvents.LIKE_POST, handleLikeSocketEvent);
+
+    socket.connect();
+
+    return () => {
+      socket.off(WebSocketEvents.NEW_POST, handleNewPostSocketEvent);
+      socket.off(WebSocketEvents.LIKE_POST, handleLikeSocketEvent);
+      socket.disconnect();
+    };
+  }, []);
+
+  const handleLikeSocketEvent = ({
+    userId,
+    postId,
+    isLiked,
+  }: LikeSocketData) => {
+    if (user?.id === userId) return;
+
+    const [query] = queryClient
+      .getQueryCache()
+      .findAll({ queryKey: ['posts'], exact: false });
+
+    queryClient.setQueryData<ListPost[]>(query.queryKey, oldPosts => {
+      if (!oldPosts) return [];
+
+      return oldPosts.map(post => {
+        if (post.id !== postId) return post;
+
+        return {
+          ...post,
+          likesCount: isLiked ? post.likesCount + 1 : post.likesCount - 1,
+        };
+      });
+    });
+  };
+
+  const handleNewPostSocketEvent = ({ authorId }: NewPostSocketData) => {
+    setHasNewPosts(user?.id !== authorId);
+  };
 
   const renderList = () => {
     if (isLoading) {

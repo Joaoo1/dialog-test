@@ -40,7 +40,7 @@ export const Profile: React.FC = () => {
         <UpdateProfileModal onClose={() => setShowUpdateProfileModal(false)} />
       )}
 
-      <Header />
+      <Header showSearchBar={false} />
 
       <Box maxW="md" mx="auto" p={8}>
         <VStack

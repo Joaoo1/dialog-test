@@ -4,7 +4,11 @@ import { LeftContainer } from './components/LeftContainer';
 import { RightContainer } from './components/RightContainer';
 import { SearchContainer } from './components/SearchContainer';
 
-export const Header: React.FC = () => {
+interface Props {
+  showSearchBar?: boolean;
+}
+
+export const Header: React.FC<Props> = ({ showSearchBar = true }) => {
   const headerHeight = useHeaderHeight();
 
   return (
@@ -39,7 +43,7 @@ export const Header: React.FC = () => {
       >
         <LeftContainer />
 
-        <SearchContainer />
+        {showSearchBar ? <SearchContainer /> : <div />}
 
         <RightContainer />
       </Grid>

@@ -1,3 +1,5 @@
+import { io } from '../../../../server/app';
+import { WebSocketEvents } from '../../../../server/websocket/events';
 import type { TogglePostLikeDTO } from '../../dtos/TogglePostLikeDTO';
 import type { IPostsLikesRepository } from '../../repositories/IPostsLikesRepository';
 
@@ -9,6 +11,12 @@ export class TogglePostLikeUseCase {
       postId,
       userId
     );
+
+    io.emit(WebSocketEvents.LIKE_POST, {
+      postId,
+      userId,
+      isLiked: !alreadyLiked,
+    });
 
     if (alreadyLiked) {
       await this.postsLikesRepository.delete(postId, userId);
