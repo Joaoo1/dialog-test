@@ -3,27 +3,28 @@ import type { AxiosError } from 'axios';
 import type { DefaultApiError, User } from '../../interfaces';
 import { api } from '../../services/api';
 
-export interface SignInParams {
-	email: string;
-	password: string;
+export interface SignInProps {
+  email: string;
+  password: string;
 }
 
 interface SignInResponse {
-	token: string;
-	user: User;
+  token: string;
+  user: User;
 }
 
-interface Props {
-	onSuccess: (data: SignInResponse) => void;
-	onError: (error: AxiosError<DefaultApiError>) => void;
-}
+export function useSignIn() {
+  async function handler(props: SignInProps) {
+    const { data } = await api.post<SignInResponse>('/auth/sign-in', props);
 
-export function useSignIn(props: Props) {
-	async function handler(params: SignInParams) {
-		const { data } = await api.post<SignInResponse>('/auth/sign-in', params);
+    return data;
+  }
 
-		return data;
-	}
+  const mutation = useMutation<
+    SignInResponse,
+    AxiosError<DefaultApiError>,
+    SignInProps
+  >({ mutationFn: handler });
 
-	return useMutation({ mutationFn: handler, ...props });
+  return mutation;
 }

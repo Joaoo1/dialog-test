@@ -67,19 +67,22 @@ export const SignUpForm: React.FC = () => {
     resolver: zodResolver(signUpFormSchema, { async: false }),
   });
 
-  const { mutate: signUp, isPending: isSigningUp } = useSignUp({
-    onSuccess: () => {
-      toast.success('Cadastro realizado com sucesso!');
-      goBack();
-    },
-    onError: error => {
-      const message = error.response?.data.message || 'Erro ao cadastrar';
-      toast.error(message);
-    },
-  });
+  const { mutate: signUp, isPending: isSigningUp } = useSignUp();
 
   const onSubmit = (data: ISignUpFormData) => {
-    signUp({ email: data.email, password: data.password, name: data.name });
+    signUp(
+      { email: data.email, password: data.password, name: data.name },
+      {
+        onSuccess: () => {
+          toast.success('Cadastro realizado com sucesso!');
+          goBack();
+        },
+        onError: error => {
+          const message = error.response?.data.message || 'Erro ao cadastrar';
+          toast.error(message);
+        },
+      }
+    );
   };
 
   const passwordValue = watch('password') || '';

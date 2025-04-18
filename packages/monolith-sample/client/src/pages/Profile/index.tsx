@@ -14,15 +14,20 @@ export const Profile: React.FC = () => {
   const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
   const [showUpdateProfileModal, setShowUpdateProfileModal] = useState(false);
 
-  const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser({
-    onSuccess: () => {
-      toast.success('Perfil excluído com sucesso.');
-      signOut();
-    },
-    onError: () => {
-      toast.error('Erro ao excluir perfil.');
-    },
-  });
+  const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
+
+  const handleDeleteUser = async () => {
+    () =>
+      deleteUser(undefined, {
+        onSuccess: () => {
+          toast.success('Perfil excluído com sucesso.');
+          signOut();
+        },
+        onError: () => {
+          toast.error('Erro ao excluir perfil.');
+        },
+      });
+  };
 
   return (
     <Box>
@@ -30,7 +35,7 @@ export const Profile: React.FC = () => {
         <ConfirmModal
           title="Excluir perfil"
           description="Você tem certeza que deseja excluir o seu perfil? Esta ação não pode ser desfeita."
-          onConfirm={deleteUser}
+          onConfirm={handleDeleteUser}
           onClose={() => setShowConfirmDeleteModal(false)}
           isLoading={isDeleting}
         />

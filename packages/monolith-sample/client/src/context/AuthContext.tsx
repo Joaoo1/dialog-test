@@ -9,11 +9,11 @@ import {
 import { toast } from 'react-toastify';
 
 import { useFetchUser } from '../hooks/api/useFetchUser';
-import { type SignInParams, useSignIn } from '../hooks/api/useSignIn';
+import { type SignInProps, useSignIn } from '../hooks/api/useSignIn';
 import type { User } from '../interfaces';
 
 interface AuthContextProps {
-  signIn: (data: SignInParams) => void;
+  signIn: (data: SignInProps) => void;
   signOut: () => void;
   isAuthenticated: boolean;
   isAuthenticating: boolean;
@@ -40,17 +40,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     init();
   }, [init]);
 
-  const { mutate: login, isPending: isAuthenticating } = useSignIn({
-    onSuccess: async data => {
-      await localforage.setItem('user', data.user);
-      await localforage.setItem('token', data.token);
-
-      await init();
-    },
-    onError: err => {
-      toast.error(err?.response?.data?.message ?? 'Erro');
-    },
-  });
+  const { mutate: signIn, isPending: isAuthenticating } = useSignIn();
 
   const signOut = async () => {
     await localforage.removeItem('user');
@@ -59,10 +49,24 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setUser(null);
   };
 
+  const handleSignIn = (data: SignInProps) => {
+    signIn(data, {
+      onSuccess: async data => {
+        await localforage.setItem('user', data.user);
+        await localforage.setItem('token', data.token);
+
+        await init();
+      },
+      onError: err => {
+        toast.error(err?.response?.data?.message ?? 'Erro');
+      },
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
-        signIn: login,
+        signIn: handleSignIn,
         isAuthenticated: !!user,
         isLoadingAuthInfo,
         user: data ?? user,

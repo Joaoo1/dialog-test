@@ -3,15 +3,14 @@ import type { AxiosError } from 'axios';
 import type { DefaultApiError } from '../../interfaces';
 import { api } from '../../services/api';
 
-interface Props {
-  onSuccess: () => void;
-  onError: (error: AxiosError<DefaultApiError>) => void;
-}
-
-export const useDeleteUser = (props: Props) => {
+export const useDeleteUser = () => {
   async function handler() {
     await api.delete('/users');
   }
 
-  return useMutation({ mutationFn: handler, ...props });
+  const mutation = useMutation<void, AxiosError<DefaultApiError>, void>({
+    mutationFn: handler,
+  });
+
+  return mutation;
 };

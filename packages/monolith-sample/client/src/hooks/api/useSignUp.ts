@@ -3,7 +3,7 @@ import type { AxiosError } from 'axios';
 import type { DefaultApiError, User } from '../../interfaces';
 import { api } from '../../services/api';
 
-export interface SignUpParams {
+export interface SignUpProps {
   email: string;
   password: string;
   name: string;
@@ -13,17 +13,18 @@ interface SignUpResponse {
   user: User;
 }
 
-interface Props {
-  onSuccess: (data: SignUpResponse) => void;
-  onError: (error: AxiosError<DefaultApiError>) => void;
-}
-
-export function useSignUp(props: Props) {
-  async function handler(params: SignUpParams) {
-    const { data } = await api.post<SignUpResponse>('/auth/sign-up', params);
+export function useSignUp() {
+  async function handler(props: SignUpProps) {
+    const { data } = await api.post<SignUpResponse>('/auth/sign-up', props);
 
     return data;
   }
 
-  return useMutation({ mutationFn: handler, ...props });
+  const mutation = useMutation<
+    SignUpResponse,
+    AxiosError<DefaultApiError>,
+    SignUpProps
+  >({ mutationFn: handler });
+
+  return mutation;
 }

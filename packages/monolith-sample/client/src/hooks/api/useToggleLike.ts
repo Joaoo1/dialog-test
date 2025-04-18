@@ -11,13 +11,15 @@ interface ToggleLikeResponse {
 export const useToggleLike = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async (postId: string) => {
-      const response = await api.post<ToggleLikeResponse>(
-        `/posts/${postId}/like`
-      );
-      return response.data;
-    },
+  async function handler(postId: string) {
+    const { data } = await api.post<ToggleLikeResponse>(
+      `/posts/${postId}/like`
+    );
+    return data;
+  }
+
+  const mutation = useMutation({
+    mutationFn: handler,
     onSuccess: ({ postId, isLiked }) => {
       const [query] = queryClient
         .getQueryCache()
@@ -38,4 +40,6 @@ export const useToggleLike = () => {
       });
     },
   });
+
+  return mutation;
 };

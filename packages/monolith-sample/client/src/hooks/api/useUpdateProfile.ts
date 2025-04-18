@@ -17,12 +17,12 @@ interface UpdateProfileResponse {
 export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
 
-  async function handler(data: UpdateProfileData) {
-    const response = await api.put<UpdateProfileResponse>('/users', data);
-    return response.data;
+  async function handler(params: UpdateProfileData) {
+    const { data } = await api.put<UpdateProfileResponse>('/users', params);
+    return data;
   }
 
-  return useMutation<
+  const mutation = useMutation<
     UpdateProfileResponse,
     AxiosError<DefaultApiError>,
     UpdateProfileData
@@ -34,4 +34,6 @@ export const useUpdateProfile = () => {
       });
     },
   });
+
+  return mutation;
 };
