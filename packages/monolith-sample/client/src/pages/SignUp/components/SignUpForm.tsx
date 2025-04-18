@@ -2,7 +2,7 @@ import { Button, Checkbox, Flex, Text } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MdArrowForward } from 'react-icons/md';
+import { MdArrowForward, MdCancel, MdCheckCircle } from 'react-icons/md';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
@@ -19,10 +19,10 @@ const signUpFormSchema = z
       .min(1, { message: 'Este campo é obrigatório' }),
     password: z
       .string()
-      .min(6, { message: 'Senha deve conter no mínimo 6 caracteres' }),
-    confirmPassword: z
-      .string()
-      .min(6, { message: 'Senha deve conter no mínimo 6 caracteres' }),
+      .min(8, { message: 'Mínimo 8 caracteres' })
+      .regex(/[A-Z]/, { message: 'Ao menos uma letra maiúscula' })
+      .regex(/[0-9]/, { message: 'Ao menos um número' }),
+    confirmPassword: z.string(),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
@@ -36,16 +36,33 @@ const signUpFormSchema = z
 
 type ISignUpFormData = z.infer<typeof signUpFormSchema>;
 
+const getPasswordRequirements = (password: string) => [
+  {
+    label: 'Mínimo 8 caracteres',
+    valid: password.length >= 8,
+  },
+  {
+    label: 'Ao menos uma letra maiúscula',
+    valid: /[A-Z]/.test(password),
+  },
+  {
+    label: 'Ao menos um número',
+    valid: /[0-9]/.test(password),
+  },
+];
+
 export const SignUpForm: React.FC = () => {
   const navigate = useNavigate();
   const goBack = () => navigate(-1);
 
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<ISignUpFormData>({
     resolver: zodResolver(signUpFormSchema, { async: false }),
   });
@@ -64,6 +81,9 @@ export const SignUpForm: React.FC = () => {
   const onSubmit = (data: ISignUpFormData) => {
     signUp({ email: data.email, password: data.password, name: data.name });
   };
+
+  const passwordValue = watch('password') || '';
+  const passwordRequirements = getPasswordRequirements(passwordValue);
 
   return (
     <Flex
@@ -119,15 +139,27 @@ export const SignUpForm: React.FC = () => {
           isRequired
           placeholder="Digite sua senha"
           type={showPassword ? 'text' : 'password'}
-          {...register('password')}
+          onFocus={() => setPasswordFocused(true)}
+          {...register('password', { onBlur: () => setPasswordFocused(false) })}
         />
-
-        {errors.password && (
-          <Text color="red" size="sm">
-            {errors.password.message}
-          </Text>
-        )}
       </Label>
+
+      {passwordFocused && (
+        <Flex direction="column" gap={1}>
+          {passwordRequirements.map(req => (
+            <Flex key={req.label} align="center" gap={1}>
+              {req.valid ? (
+                <MdCheckCircle color="green" />
+              ) : (
+                <MdCancel color="red" />
+              )}
+              <Text fontSize="sm" color={req.valid ? 'green.600' : 'red.500'}>
+                {req.label}
+              </Text>
+            </Flex>
+          ))}
+        </Flex>
+      )}
 
       <Label>
         <Flex justifyContent="space-between" alignItems="center">
