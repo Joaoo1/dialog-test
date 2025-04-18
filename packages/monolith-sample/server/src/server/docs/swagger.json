@@ -131,7 +131,7 @@
 					}
 				},
 				"responses": {
-					"200": {
+						"201": {
 						"description": "User successfully created.",
 						"content": {
 							"application/json": {
@@ -271,7 +271,8 @@
 										"example": "NewPassword123",
 										"description": "The new password for the user."
 									}
-								}
+								},
+								"required": []
 							}
 						}
 					}
@@ -355,7 +356,15 @@
 			"get": {
 				"summary": "List all posts",
 				"tags": ["Posts"],
-				"security": [{ "bearerAuth": [] }],
+				"parameters": [
+					{
+						"name": "search",
+						"in": "query",
+						"required": false,
+						"schema": { "type": "string" },
+						"description": "Search term to filter posts by content (accent-insensitive)."
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "Posts list",
@@ -369,8 +378,10 @@
 											"id": { "type": "string" },
 											"text": { "type": "string" },
 											"createdAt": { "type": "string", "format": "date-time" },
+											"createdBy": { "type": "string", "format": "uuid" },
 											"authorName": { "type": "string" },
-											"likesCount": { "type": "integer" }
+											"likesCount": { "type": "integer" },
+											"likedByUser": { "type": "boolean" }
 										}
 									}
 								}
@@ -399,7 +410,20 @@
 				},
 				"responses": {
 					"201": {
-						"description": "Post created"
+						"description": "Post created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"id": { "type": "string" },
+										"text": { "type": "string" },
+										"createdBy": { "type": "string", "format": "uuid" },
+										"createdAt": { "type": "string", "format": "date-time" }
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -414,7 +438,7 @@
 						"name": "id",
 						"in": "path",
 						"required": true,
-						"schema": { "type": "string" }
+						"schema": { "type": "string", "format": "uuid" }
 					}
 				],
 				"responses": {
@@ -434,7 +458,7 @@
 						"name": "postId",
 						"in": "path",
 						"required": true,
-						"schema": { "type": "string" }
+						"schema": { "type": "string", "format": "uuid" }
 					}
 				],
 				"responses": {
