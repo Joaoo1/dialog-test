@@ -1,7 +1,6 @@
-import { Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { MdArrowUpward } from 'react-icons/md';
 import { useSearchParams } from 'react-router';
 import { Loading } from '../../../components/Loading';
 import { useFetchPosts } from '../../../hooks/api/useFetchPosts';
@@ -9,6 +8,7 @@ import { useAuth } from '../../../hooks/context/useAuth';
 import { useHeaderHeight } from '../../../hooks/useHeaderHeight';
 import type { ListPost } from '../../../interfaces';
 import { WebSocketEvents, socket } from '../../../services/socket';
+import { NewPostsButton } from './NewPostsButton';
 import { PostItem } from './PostItem';
 
 interface LikeSocketData {
@@ -105,17 +105,9 @@ export const PostsList: React.FC = () => {
     return posts.map(item => <PostItem key={item.id} post={item} />);
   };
 
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
   const handleNewPostButtonClick = async () => {
     await refetch();
     setHasNewPosts(false);
-    handleScrollToTop();
   };
 
   return (
@@ -130,30 +122,10 @@ export const PostsList: React.FC = () => {
       mt={{ base: `${headerHeight + 70}px`, sm: `${headerHeight + 20}px` }}
     >
       {hasNewPosts && (
-        <Button
-          color="white"
-          colorScheme="brand"
-          position="fixed"
-          bg="brand.500"
-          left="50%"
-          transform="translateX(-50%)"
-          zIndex="100"
-          px="4"
-          py="2"
-          borderRadius="full"
-          alignItems="center"
-          gap="2"
-          mt="-5px"
+        <NewPostsButton
+          isFetching={isFetching}
           onClick={handleNewPostButtonClick}
-        >
-          {isFetching ? (
-            <Spinner size="sm" colorScheme="brand" />
-          ) : (
-            <MdArrowUpward size={20} />
-          )}
-
-          <Text>Novas postagens</Text>
-        </Button>
+        />
       )}
 
       {renderList()}
