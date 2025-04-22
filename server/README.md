@@ -2,10 +2,6 @@
 
 Esta é a API desenvolvida para o Feed, feito utilizando NodeJS. A documentação detalhadas dos endpoints da API se encontra em [API Feed](https://api-dialog.utamo.com.br/docs/).
 
-**O app já consta com CI/CD configurado, portanto, qualquer alteração na branch main já irá refletir no app.**
-
-A branch main está protegida contra push direto, então, caso queira realizar alguma alteração, crie uma nova branch e abra um PR para a main. É obrigatório que o workflow de testes e linting finalize sem erros para ser possível finalizar o PR. 
-
 ## 📁 Estrutura de pastas da API
 ```
     └── 📁docker     # Arquivos utilizados nos containers docker
