@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: postgres_db
     image: postgres
     restart: unless-stopped
     shm_size: 512mb
