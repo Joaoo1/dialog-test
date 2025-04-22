@@ -26,7 +26,7 @@ jobs:
         - name: Build docker image to scan for vulnerabilities
           uses: docker/build-push-action@v2
           with:
-            context: .
+            context: ./server
             file: ./server/Dockerfile-prod
             load: true
             tags: silvajoao/dialog:scan
@@ -45,7 +45,7 @@ jobs:
         - name: Build, tag, and push docker image to Docker Hub
           uses: docker/build-push-action@v2
           with:
-            context: .
+            context: ./server
             file: ./server/Dockerfile-prod
             push: true
             cache-from: type=gha
