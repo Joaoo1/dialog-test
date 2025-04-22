@@ -10,6 +10,10 @@ O Feed é uma app onde os usuários podem criar posts e curtir os posts de outra
 O app também conta com funcionalidades de cadastro, login e atualização dos dados de perfil, assim como a senha. 
 E por fim, a aplicação conta com informações em tempo real, tanto para novos posts, quanto para os likes.
 
+**O app já consta com CI/CD configurado, portanto, qualquer alteração na branch main já irá refletir no app.**
+
+A branch main está protegida contra push direto, então, caso queira realizar alguma alteração, crie uma nova branch e abra um PR para a main. É obrigatório que o workflow de testes e linting finalize sem erros para ser possível finalizar o PR. 
+
 ## 📁 Estrutura de pastas
 O app foi dividido em duas partes, dessa forma:
 
