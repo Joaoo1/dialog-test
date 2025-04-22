@@ -37,7 +37,7 @@ services:
     container_name: server_api
     restart: always
     ports:
-      - 5000:5000
+      - 5555:5555
     depends_on:
       - db
     volumes:
