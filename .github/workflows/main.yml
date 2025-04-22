@@ -1,0 +1,93 @@
+name: build and deploy
+
+on:
+    push:
+        branches:
+        - main
+
+jobs:
+    build:
+        name: "Build"
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v2
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_TOKEN }}
+
+        - name: Build docker image to scan for vulnerabilities
+          uses: docker/build-push-action@v2
+          with:
+            context: .
+            file: Dockerfile-prod
+            load: true
+            tags: silvajoao/dialog:scan
+            cache-from: type=gha
+            cache-to: type=gha,mode=max
+
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@0.28.0
+          with:
+            image-ref: 'silvajoao/dialog:scan'
+            format: 'table'
+            ignore-unfixed: true
+            vuln-type: 'os,library'
+            severity: 'CRITICAL,HIGH'
+            
+        - name: Build, tag, and push docker image to Docker Hub
+          uses: docker/build-push-action@v2
+          with:
+            context: .
+            file: Dockerfile-prod
+            push: true
+            cache-from: type=gha
+            tags: silvajoao/dialog:latest
+
+    deploy:
+      name: "Deploy"
+      runs-on: ubuntu-latest
+      needs: build
+
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Connect to SSH server and update Docker image
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /root/www/dialog-test
+            docker pull silvajoao/dialog:latest
+            git reset --hard && git checkout main && git pull origin main
+
+            cat <<EOF > .env
+            PORT=${{ secrets.PORT }}
+            NODE_ENV=production
+
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASS=${{ secrets.DB_PASS }}
+            DB_PORT=${{ secrets.DB_PORT }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_NAME=${{ secrets.DB_NAME }}
+
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+
+            POSTGRES_USER=${{ secrets.DB_USER }}
+            POSTGRES_PASSWORD=${{ secrets.DB_PASS }}
+            POSTGRES_DB=${{ secrets.DB_NAME }}
+            EOF
+
+            docker compose -f docker-compose-prod.yml down
+            docker compose -f docker-compose-prod.yml up -d --build
