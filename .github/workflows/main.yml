@@ -96,5 +96,7 @@ jobs:
             VITE_API_PORT=${{ secrets.VITE_SOCKET_BASE_URL }}
             EOF
 
+            cd ..
+
             docker compose -f docker-compose-prod.yml down
             docker compose -f docker-compose-prod.yml up -d --build 
