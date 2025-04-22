@@ -16,7 +16,7 @@
   server:
     build:
       context: ./server
-      dockerfile: ./server/Dockerfile-prod
+      dockerfile: Dockerfile-prod
       args:
         - PORT
     env_file:

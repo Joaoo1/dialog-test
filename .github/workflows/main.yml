@@ -27,7 +27,7 @@ jobs:
           uses: docker/build-push-action@v2
           with:
             context: .
-            file: Dockerfile-prod
+            file: ./server/Dockerfile-prod
             load: true
             tags: silvajoao/dialog:scan
             cache-from: type=gha
