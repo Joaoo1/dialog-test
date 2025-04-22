@@ -8,6 +8,8 @@ RUN npm ci
 
 COPY . .
 
+RUN npm i -g typescript
+
 RUN npm run build
 
 FROM gcr.io/distroless/nodejs22-debian12 AS deploy

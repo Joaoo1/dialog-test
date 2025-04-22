@@ -46,7 +46,7 @@ jobs:
           uses: docker/build-push-action@v2
           with:
             context: .
-            file: Dockerfile-prod
+            file: ./server/Dockerfile-prod
             push: true
             cache-from: type=gha
             tags: silvajoao/dialog:latest

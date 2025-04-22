@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { generateFakeUser } from '../../../../common/factories/generateFakeUser';
+import { Bcrypt } from '../../../../common/libs/Hasher';
 import { UserAlreadyExistsError } from '../../errors/UserAlreadyExistsError';
 import { UserNotFoundError } from '../../errors/UserNotFoundError';
 import { UsersRepository } from '../../repositories/UsersRepository';
@@ -7,7 +8,7 @@ import { UpdateUserUseCase } from './UpdateUserUseCase';
 
 const makeSut = async () => {
   const usersRepository = new UsersRepository();
-  const sut = new UpdateUserUseCase(usersRepository);
+  const sut = new UpdateUserUseCase(usersRepository, new Bcrypt());
   const user = await generateFakeUser('123456');
 
   return { sut, usersRepository, user };

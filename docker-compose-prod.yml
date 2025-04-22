@@ -1,4 +1,4 @@
-3services:
+services:
   db:
     image: postgres
     restart: always
