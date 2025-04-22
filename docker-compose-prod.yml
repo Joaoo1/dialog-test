@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres
-    restart: always
+    restart: unless-stopped
     shm_size: 512mb
     env_file:
       - ./server/.env
@@ -22,7 +22,7 @@ services:
     env_file:
       - ./server/.env
     container_name: server_api
-    restart: always
+    restart: unless-stopped
     ports:
       - 5555:5555
     depends_on:
@@ -38,9 +38,9 @@ services:
       context: ./client
       dockerfile: Dockerfile-prod
     container_name: client_app
-    restart: always
+    restart: unless-stopped
     ports:
-      - 8080:3000
+      - 8080:80
     volumes:
       - ./client:/app
       - /app/node_modules
