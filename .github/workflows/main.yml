@@ -92,8 +92,8 @@ jobs:
 
             cd ../client
             cat <<EOF > .env
-            VITE_API_URL=${{ secrets.VITE_API_BASE_URL }}
-            VITE_API_PORT=${{ secrets.VITE_SOCKET_BASE_URL }}
+            VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}
+            VITE_API_BASE_PORT=${{ secrets.VITE_SOCKET_BASE_URL }}
             EOF
 
             cd ..
