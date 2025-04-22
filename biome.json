@@ -14,10 +14,6 @@
 	},
 	"overrides": [
 		{
-			"include": [
-				"packages/monolith-sample/server/**",
-				"packages/monolith-sample/client/**"
-			],
 			"formatter": {
 				"indentWidth": 2,
 				"indentStyle": "space"
