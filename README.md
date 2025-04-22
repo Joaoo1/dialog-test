@@ -1,6 +1,10 @@
-# Desafio Dialog - Feed de noticías
+# Desafio Dialog - Feed
 
 Esta é o código do desafio realizado pela Dialog. A documentação detalhada de cada parte do sistema encontra-se no README.md da sua respectiva pasta.
+
+O Feed é uma app onde os usuários podem criar posts e curtir os posts de outras pessoas, e também é possível excluir ou "descurtir" um post. 
+O app também conta com funcionalidades de cadastro, login e atualização dos dados de perfil, assim como a senha. 
+E por fim, a aplicação conta com informações em tempo real, tanto para novos posts, quanto para os likes.
 
 ## 📁 Estrutura de pastas
 O app foi dividido em duas partes, dessa forma:
@@ -20,9 +24,12 @@ Antes de começar, você vai precisar ter instalado em sua máquina a seguinte f
 ### Executando o projeto localmente
 
 ```bash
-# Crie um arquivo .env na pasta server com base no ./server/.env.test. 
-# As variáveis DB_PORT precisam ser diferentes em cada arquivo env e DEVEM ser as mesmas que estão na porta exposta dos containers no arquivo docker-compose.yml. 
-# Onde encontrar a porta exposta no docker-compose.yml:
+# Crie um arquivo .env na pasta client com base no ./client/.env.example
+#
+# Crie um arquivo .env na pasta server com base no ./server/.env.example
+# As variáveis DB_PORT precisam ser diferentes entre os arquivos .env e .env.test.
+# A porta colocada no env DEVE ser as mesma que está exposta no container no arquivo docker-compose.yml. 
+# Onde encontrar a porta exposta do container no docker-compose.yml:
 
     ports:
         - ${PORTA_EXPOSTA}:5432

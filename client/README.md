@@ -1,54 +1,14 @@
-# React + TypeScript + Vite
+# Plathanus - Portal de notícias
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esta é o frontend desenvolvido para o Feed.
 
-Currently, two official plugins are available:
+## 💭 Tecnologias utilizadas
+Vou deixar aqui um breve resumo de algumas tecnologias utilizadas nesse projeto:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React query**: O react query é uma tecnologia que acaba facilitando demais as comunicações com serviços externos, pois possui muitas funcionalidades prontas que são essenciais, como cache, recarregar dados automaticamente ao sair e voltar na tela, cria varios estados do react facilitar a atualização da interface do usuário, etc.
 
-## Expanding the ESLint configuration
+- **React hook form + Zod**: O react hook form faz um parte perfeito com o Zod para lidar com toda aquela parte chata de formulários e te livra de um monte de boilerplate.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Chakra UI**: Por um tempo eu fui contra biblioteca de componentes visuais pelo trauma que tive trabalhando com bootstrap e companhia. Mas numa empresa que trabalhei fui obrigado a utilizar o chakra e acabei gostando muito. É uma biblioteca com boa integração com typescript, tem os componentes altamente customizáveis e bem feitos (está se encaminhando cada vez mais para esse caminho de ser mais customizável e menos opinativo com a recem lançada v3), e a melhor parte, não precisa criar 1 arquivo CSS sequer, evitando ter que ficar caçando classes e seletores CSS durante manuntenções. 
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- **localforage**: ferramenta ótima para melhorar a experiência com dados salvos localmente no navegador, proporcionando um armazenamento assíncrono e tentando utilizar tecnologias mais robustas que o local-storage como IndexedDB ou WebSQL.
