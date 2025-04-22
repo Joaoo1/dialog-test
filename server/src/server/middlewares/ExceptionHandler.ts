@@ -8,9 +8,9 @@ export const ExceptionHandler: ErrorRequestHandler = (
   res,
   next
 ) => {
-  // if (env.NODE_ENV === 'development') {
-  console.error(error);
-  // }
+  if (env.NODE_ENV === 'development') {
+    console.error(error);
+  }
 
   if (error instanceof AppError) {
     return res.status(error.statusCode).send({ message: error.message });
