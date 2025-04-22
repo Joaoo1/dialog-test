@@ -1,6 +1,6 @@
 # Plathanus - Portal de notícias
 
-Esta é o frontend desenvolvido para o Feed.
+Esta é o frontend desenvolvido para o Feed. Encontra-se disponível online clicando [aqui](https://dialog.utamo.com.br). 
 
 ## 💭 Tecnologias utilizadas
 Vou deixar aqui um breve resumo de algumas tecnologias utilizadas nesse projeto:

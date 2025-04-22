@@ -7,6 +7,9 @@
 	},
 	"servers": [
 		{
+			"url": "https://api-dialog.utamo.com.br"
+		},
+		{
 			"url": "http://localhost:5555"
 		}
 	],
