@@ -1,3 +1,3 @@
 export const toastStyles: React.CSSProperties = {
-	fontFamily: "Inter",
+  fontFamily: 'Inter',
 };
