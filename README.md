@@ -1,4 +1,8 @@
-# Desafio Dialog - Feed
+<p align="center">
+   <img src="./client/src/assets/full-logo.png" alt="Proffy" width="250"/>
+</p>
+
+# Desafio Dialog - Pleno
 
 Esta é o código do desafio realizado pela Dialog. A documentação detalhada de cada parte do sistema encontra-se no README.md da sua respectiva pasta.
 
