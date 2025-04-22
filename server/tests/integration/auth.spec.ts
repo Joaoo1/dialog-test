@@ -26,13 +26,11 @@ describe('Auth - Integration tests', () => {
     });
 
     it('should not allow duplicate registration', async () => {
-      const response = await request(app)
-        .post('/api/auth/sign-up')
-        .send({
-          email: testUser.email,
-          password: testUserPassword,
-          name: testUser.name,
-        });
+      const response = await request(app).post('/api/auth/sign-up').send({
+        email: testUser.email,
+        password: testUserPassword,
+        name: testUser.name,
+      });
 
       expect(response.statusCode).toBe(409);
     });
