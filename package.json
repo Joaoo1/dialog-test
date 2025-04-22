@@ -10,7 +10,7 @@
 		"install:client": "cd client && npm install --verbose",
 		"install:server": "cd server && npm install --verbose",
 		"install:all": "npm install && npm run install:client && npm run install:server",
-		"build": "npm run build --prefix client"
+		"build": "npm run build --prefix server"
 	},
 	"engines": {
 		"node": ">=12.0.0"
